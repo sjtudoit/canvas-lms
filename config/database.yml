@@ -1,0 +1,22 @@
+# do not create a queue: section for your test environment
+
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  timeout: 5000
+  host: <%= ENV['CANVAS_PSQL_HOST'] %>
+  port: <%= ENV['CANVAS_PSQL_PORT'] %>
+  username: <%= ENV['CANVAS_PSQL_USERNAME'] %>
+  password: <%= ENV['CANVAS_PSQL_PASSWORD'] %>
+
+test:
+  <<: *default
+  database: canvas_test
+
+development:
+  <<: *default
+  database: canvas_development
+
+production:
+  <<: *default
+  database: canvas_production
