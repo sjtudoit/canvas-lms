@@ -21,6 +21,7 @@ app/stylesheets/brandable_css_brands
 /config/*.yml
 !/config/database.yml
 !/config/security.yml
+!/config/domain.yml
 /config/build.js
 /config/environments/*-local.rb
 /config/locales/generated/
