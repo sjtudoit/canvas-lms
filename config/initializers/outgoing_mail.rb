@@ -21,6 +21,12 @@ Rails.configuration.to_prepare do
   IncomingMail::ReplyToAddress.address_pool = config[:reply_to_addresses] ||
     Array(HostUrl.outgoing_email_address)
   IncomingMailProcessor::MailboxAccount.default_outgoing_email = HostUrl.outgoing_email_address
+
+  # for aliyun
+  Mailer.use_aliyun = config[:use_aliyun]
+  Mailer.aliyun_account_name = config[:account_name]
+  Mailer.aliyun_key = config[:key]
+  Mailer.aliyun_secret = config[:secret]
 end
 
 # delivery_method can be :smtp, :sendmail, :letter_opener, or :test

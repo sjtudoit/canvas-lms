@@ -795,7 +795,8 @@ class Message < ActiveRecord::Base
     res = nil
     logger.info "Delivering mail: #{self.inspect}"
     begin
-      res = Mailer.create_message(self).deliver
+      #res = Mailer.create_message(self).deliver
+      res = Mailer.deliver(self)
     rescue Net::SMTPServerBusy => e
       @exception = e
       logger.error "Exception: #{e.class}: #{e.message}\n\t#{e.backtrace.join("\n\t")}"
