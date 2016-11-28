@@ -23,6 +23,7 @@ app/stylesheets/brandable_css_brands
 !/config/security.yml
 !/config/domain.yml
 !/config/outgoing_mail.yml
+!/config/delayed_jobs.yml
 /config/build.js
 /config/environments/*-local.rb
 /config/locales/generated/
