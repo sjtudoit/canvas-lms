@@ -1,0 +1,40 @@
+aliyun: &aliyun
+  use_aliyun: true
+  account_name: <%= ENV['CANVAS_ALIYUN_ACCOUNT_NAME'] %>
+  key: <%= ENV['CANVAS_ALIYUN_KEY'] %>
+  secret: <%= ENV['CANVAS_ALIYUN_SECRET'] %>
+  default_name: <%= ENV['CANVAS_SMTP_DEFAULT_NAME'] %>
+
+development:
+  <<: *aliyun
+
+# or to use sendmail --
+#
+# development:
+#   delivery_method: "sendmail"
+
+test:
+  delivery_method: "test"
+
+production:
+  <<: *aliyun
+
+# If receiving mail from multiple inboxes (see incoming_mail.yml.example),
+# you'll want to include those addresses in a reply_to_addresses array so
+# Canvas will select the Reply-To field of outgoing messages from all of the
+# incoming mailboxes.
+
+multiple_inboxes:
+  address: "smtp.example.com"
+  port: "25"
+  user_name: "user"
+  password: "password"
+  authentication: "plain" # plain, login, or cram_md5
+  domain: "example.com"
+  outgoing_address: "canvas@example.com"
+  default_name: "Instructure Canvas"
+  reply_to_addresses:
+  - "canvas1@example.com"
+  - "canvas2@example.com"
+  - "canvas3@example.com"
+  - "canvas4@example.com"

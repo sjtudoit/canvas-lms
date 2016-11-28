@@ -22,6 +22,41 @@ class Mailer < ActionMailer::Base
 
   attr_reader :email
 
+  class << self
+
+    # for aliyun
+    attr_accessor :use_aliyun, :aliyun_account_name, :aliyun_key, :aliyun_secret
+
+    # 发送邮件
+    def deliver(m)
+      if use_aliyun
+        deliver_to_aliyun(m)
+      else
+        create_message(m).deliver
+      end
+    end
+
+    # 使用阿里云发送邮件
+    def deliver_to_aliyun(m)
+      mail = AliyunMail::SingleMailer.new(aliyun_account_name, aliyun_key, aliyun_secret)
+      mail.add_dst_addrs(m.to) if m.to.is_a?(Array)
+      mail.add_dst_addrs([m.to]) if m.to.is_a?(String)
+
+      if m.body
+        mail.set_text_body(m.body)
+      else
+        # 优先发送文字信息，如果有文字信息就不发送html信息
+        # 因为注册确认邮件会被阿里云判定为垃圾邮件
+        mail.set_html_body(m.html_body) if m.html_body
+      end
+
+      mail.set_src_alias(m.from_name || HostUrl.outgoing_email_default_name)
+      mail.set_subject(m.subject)
+      result = mail.send
+      raise Net::SMTPServerBusy, 'deliver email by aliyun failed!' unless result
+    end
+  end
+
   # define in rails3-style
   def create_message(m)
     # notifications have context, bounce replies don't.
